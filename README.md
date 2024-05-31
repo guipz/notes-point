@@ -2,6 +2,7 @@
 
 My CS50W's final project is named NotesPoint, a note creation application, but not the usual type. 
 It's a geographic based notes creator that permit people to place anonymous notes anywhere in the world.
+You can see the application functionalities showcased in this [video](https://www.youtube.com/watch?v=OZfKL8YaVYw).
 
 # Project Description
 
