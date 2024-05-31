@@ -1,0 +1,97 @@
+{% extends "website/navbar_layout.html" %}
+{% load static %}
+{% block title %} Map {% endblock %}
+{% block script %}
+<script src="{% static 'website/js/map.js' %}">
+</script>
+<script src="https://unpkg.com/@googlemaps/markerclusterer@2.2.1/dist/index.min.js" 
+    integrity="sha384-heC3MBpBGaYOkXBv5AMbkAtgC/n9C4WtjUe6z98/hwAe6aIbtI7DSKHcFGFTCXj9" 
+    crossorigin="anonymous"></script>
+<!-- Load google maps passing the authentication key and callback function "initMap" -->
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=VALID_GOOGLE_MAP_KEY&callback=initMap">
+</script>
+{% endblock %}
+{% block body %}
+{{ block.super }}
+<!-- Map DOM element to hold the google map. -->
+<div class="full-height-minus-navbar" id="map"></div>
+<!-- New note modal -->
+<div id="new-note-modal" class="note-modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-4">
+                <h5 class="modal-title">New Note</h5>
+                <button type="button" class="btn-close" data-bs-target="#new-note-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="new-note-form" method="post" action="{% url 'create-note' %}">
+                <div class="modal-body">
+                    <textarea class="main-textarea w-100 focus-ring on-main-focus-ring" maxlength="1000" name="message" placeholder="Write your note here."
+                        id="new-note-message" cols="50" rows="17" required></textarea>
+                </div>
+                <div class="modal-footer p-4">
+                    <div class="on-main-floating-form me-auto shadow-sm">
+                        <input class="form-control form-control-sm" type="number" min="1" max="100" value="10" id="new-note-duration" name="duration" required>
+                        <label class="form-label" for="new-note-duration">Duration in Days</label>
+                    </div>
+                    <input id="new-note-latitude" name="latitude" value="" hidden required>
+                    <input id="new-note-longitude" name="longitude" value="" hidden required>
+                    {% csrf_token %}
+                    <div id="new-note-loading-spinner" class="spinner-border text-light" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>                      
+                    <input id="new-note-post-button" type="submit" data-default-text="Post it" class="btn on-main-button shadow-sm" value="Post it">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- View note modal -->
+<div id="view-note-modal" class="note-modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header p-4">
+                <h5 class="modal-title">View Note</h5>
+                <button type="button" class="btn-close" data-bs-target="#view-note-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <textarea class="main-textarea w-100" name="message"
+                    id="view-note-message" cols="50" rows="17" readonly></textarea>
+            </div>
+                <div class="modal-footer p-4">
+                    <div class="on-main-floating-form me-auto shadow-sm">
+                        <input class="form-control form-control-sm" type="text" id="view-note-duration" readonly>
+                        <label for="new-note-duration">Duration</label>
+                    </div>
+                    <a id="view-note-new-chat-link" data-new-chat-url="{% url 'chat' %}?new_chat_note_id=" data-open-chat-url="{% url 'chat' %}?open_chat_id=">
+                        <img src="{% static 'website/images/chat_icon.png' %}" width="35px" height="35px">
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Alert modal -->
+<div class="modal fade" id="alert-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="alert-modal-title" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="{% static 'website/images/alert_icon.png'%}" width="40px" height="40px">  
+          <h5 class="modal-title fw-semibold ms-3" id="alert-modal-title"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="p-2" id="alert-modal-text"></div>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Initially hidden buttons that will be on the map bottom -->
+<div id="hidden-templates" style="display: none;">
+    <span id="note-creation-controls">
+        <button id="new-note-button" class="btn main-button map-bottom-button">Write a New Note</button>
+        <button id="cancel-note-button" class="btn main-button map-bottom-button">Click in the Map to Select a Location<div
+                class="text-muted text-small">Click here to Cancel</div></button>
+    </span>
+</div>
+{% endblock %}

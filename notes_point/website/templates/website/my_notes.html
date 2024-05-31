@@ -1,0 +1,43 @@
+{% extends "website/navbar_layout.html" %}
+{% load static %}
+{% load website_extras %}
+{% block title %} My Notes {% endblock %}
+{% block body %}
+{{ block.super }}
+    <main class="container-fluid text-center my-4">
+        <div class="row justify-content-center align-items-center gx-4 gy-4">
+            {% for note in notes %}
+            <div class="col-12 col-sm-11 col-xl-6 col-xxl-4">
+                <div class="card note-card" style="min-height: 45rem;"> 
+                    <div class="card-header p-4">
+                        <h5 class="card-title text-start">Note</h5>
+                    </div>
+                    <div class="card-body text-start py-3 px-4">
+                        <p class="card-text text-break">
+                            {{ note.message }}
+                        </p>
+                    </div>
+                    <div class="card-footer text-start p-4">
+                        <div class="row justify-content-between align-items-center">
+                            <div class="col-auto">
+                                <div class="on-main-floating-form me-auto shadow-sm">
+                                    <input class="form-control form-control-sm" type="text" value="{{ note.duration | datetime_to_iso }}" id="note-{{ note.id }}-duration" readonly>
+                                    <label for="note-{{ note.id }}-duration">Duration</label>
+                                </div>
+                            </div>
+                            <div class="col-2 text-end">
+                                <a href="{% url 'map' %}?highlight_note={{ note.id }}">
+                                    <img class="me-3" src="{% static 'website/images/map_icon.png' %}" width="25px" height="25px">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+                <h4>You don't have any active note.</h4>
+                <h5>Try creating some in the <a href="{% url 'map' %}">Map.</a></h5>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}

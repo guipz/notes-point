@@ -1,0 +1,71 @@
+{% extends 'website/base_layout.html' %}
+{% load static %}
+{% block title %} Sign Up {% endblock %}
+
+{% block script %}
+    <script src="{% static 'website/js/sign_form_validation.js' %}"></script>
+{% endblock %}
+{% block body %}
+    <div class="sign-page-background">
+        <div class="row justify-content-center container">
+            <div class="col-sm-12 col-md-8 col-lg-6">
+                <div class="card">
+                    <div class="card-body py-5">
+                        <img class="d-block mx-auto mb-4" src="{% static 'website/images/notespoint_logo.png' %}" width="100px" height="100px">
+                        <h2 class="text-center mb-4">Sign Up</h2>
+                        <form class="needs-validation" action="{% url 'sign-up' %}" method="post" novalidate>
+                            {% csrf_token %}
+                            {% if form.non_field_errors %} 
+                                <div class="alert alert-danger mx-3" role="alert">{{ form.non_field_errors.as_ul }}</div>
+                            {% endif %}                 
+                            <div class="form-floating mb-3 mx-3">
+                                <input type="text" class="form-control" id="username"  name="username" placeholder="Username" required>
+                                <label for="username">Username</label>
+                                <div class="invalid-feedback">
+                                    Please enter an username.
+                                </div>                           
+                            </div>
+                            {% if form.username.errors %}
+                                <div class="alert alert-danger mx-3" role="alert">{{ form.username.errors.as_ul }}</div>
+                            {% endif %}
+                            <div class="form-floating mb-3 mx-3">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+                                <label for="email">Email address</label>
+                                <div class="invalid-feedback">
+                                    Please enter a valid email.
+                                </div>  
+                            </div>
+                            {% if form.email.errors %}
+                                <div class="alert alert-danger mx-3" role="alert">{{ form.email.errors.as_ul }}</div>
+                            {% endif %}
+                            <div class="form-floating mb-3 mx-3">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                                <label for="password">Password</label>
+                                <div class="invalid-feedback">
+                                    Please enter a password.
+                                </div>  
+                            </div>
+                            {% if form.password.errors %}
+                                <div class="alert alert-danger mx-3" role="alert">{{ form.password.errors.as_ul }}</div>
+                            {% endif %}
+                            <div class="form-floating mb-3 mx-3">
+                                <input type="password" class="form-control" id="confirm-password" name="confirm_password" placeholder="Password" required>
+                                <label for="confirm-password">Confirm Password</label>
+                                <div class="invalid-feedback">
+                                    Please confirm your password.
+                                </div>  
+                            </div>
+                            {% if form.confirm_password.errors %}
+                                <div class="alert alert-danger mx-3" role="alert">{{ form.confirm_password.errors.as_ul }}</div>
+                            {% endif %}
+                            <small class="d-block text-center">Already have an account? 
+                                <a href="{% url 'sign-in' %}" class="link-underline link-underline-opacity-0">Sign in!</a>
+                            </small>
+                            <button type="submit" class="btn btn-primary d-block mx-auto mt-4">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

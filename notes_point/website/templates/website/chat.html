@@ -1,0 +1,72 @@
+{% extends "website/navbar_layout.html" %}
+{% load static %}
+{% block title %} Chat {% endblock %}
+{% block script %}
+<script src="{% static 'website/js/chat.js' %}"></script>
+{% endblock %}
+{% block body %}
+{{ block.super }}
+<div class="row m-0 d-flex justify-content-center">
+    <div id="chats-list" class="chat-container p-2 col-11 col-xl-4 m-2 d-none d-xl-block rounded">
+    </div>
+    <div id="chat-view" class="chat-container p-0 col-11 col-xl-7 m-2 d-none d-xl-block rounded">
+        <div class="z-1 chat-view-bar p-3 position-sticky top-0 start-0 d-flex align-items-center">
+            <button id="chat-view-return-button" class="icon-button d-xl-none" aria-label="Return">
+                <img class="img-fluid" src="{% static 'website/images/return_arrow.png' %}" width="25px" height="25px">
+            </button>
+            <span class="fs-5 mx-2 d-xl-none">Back to Chats</span>
+            <span class="fs-5 mx-2 d-none d-xl-block">Chat</span>
+        </div>
+        <div id="chat-view-messages-container">
+        </div>
+        <form action="{% url 'new-chat-message' %}" method="post" id="chat-view-message-form" 
+            class="chat-view-bar p-3 position-sticky top-100 start-0 d-flex align-items-center">
+            {% csrf_token %}
+            <input type="text" name="chat_id" id="chat-view-message-form-chat-id" hidden required>
+            <input class="form-control form-control-lg"  autocomplete="off" name="content" id="chat-view-message-form-content" placeholder="Message" type="text" required disabled>
+            <button class="icon-button ms-3" aria-label="Send">
+                <img class="img-fluid" src="{% static 'website/images/send_arrow.png' %}" width="25px" height="25px">
+            </button>
+        </form>
+    </div>
+</div>
+<div id="new-chat-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>New Chat</h5>
+                <button type="button" class="btn-close" data-bs-target="#new-chat-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body m-2">
+                <form id="new-chat-form" action="{% url 'new-chat' %}" method="post">
+                    {% csrf_token %}
+                    <input id="new-chat-form-chat-id" name="note_id" hidden required>
+                    <textarea id="new-chat-form-content" maxlength="500" class="form-control" name="content" placeholder="Write the first message to chat"></textarea>
+                    <button class="btn btn-primary float-end mt-3">Send</button>
+                    <button type="button" class="btn btn-secondary float-end mt-3 me-2" data-bs-target="#new-chat-modal" data-bs-dismiss="modal" aria-label="Cancel">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Templates -->
+<div class="d-none">
+    <!-- Chat message template -->
+    <div id="message-id-container" data-from-self-class="d-flex justify-content-end" class="d-flex justify-content-start">
+        <div class="chat-view-message-card m-2">
+            <div class="card-body">
+                <p id="message-id-text"></p>
+                <small id="message-id-date" class="card-subtitle text-body-secondary float-end"></small>  
+            </div>    
+        </div>
+    </div>
+    <!-- Chat Item template -->
+    <div id="chat-id-item" class="chat-item-card m-2">
+        <div class="card-body">
+            <h5 data-prefix="Note: " id="chat-id-note-text"></h5>
+            <p data-prefix="Last message: " id="chat-id-last-message-text"></p>
+            <small id="chat-id-last-message-date" class="card-subtitle text-body-secondary float-end"></small>  
+        </div>    
+    </div>
+</div>
+{% endblock %}

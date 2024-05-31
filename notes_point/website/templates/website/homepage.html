@@ -1,0 +1,24 @@
+{% extends "website/base_layout.html" %}
+{% load static %}
+{% block title %} NotesPoint {% endblock %}
+
+{% block body %}
+<main class="homepage-background">
+    <div class="homepage-header shadow-lg">
+        <div class="row gy-3">
+            <div class="col-sm-1 order-sm-2 d-flex justify-content-center align-items-center">
+                <img src="{% static 'website/images/notespoint_logo.png' %}" width="100px"
+                    height="100px" alt="Website Logo">
+            </div>
+            <div class="col-sm-11 order-sm-1 point-selection-mode">
+                <h1>NotesPoint</h1>
+                <p class="text-muted">Place anonymous notes anywhere in the world.</p>
+                <div>
+                    <a href="{% url 'sign-up' %}"><button class="btn btn-primary">Sign Up</button></a>
+                    <a href="{% url 'sign-in' %}"><button class="btn btn-secondary">Sign In</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

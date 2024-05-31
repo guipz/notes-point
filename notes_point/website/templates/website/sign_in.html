@@ -1,0 +1,51 @@
+{% extends "website/base_layout.html" %}
+{% load static %}
+{% block title %} Sign In {% endblock %}
+
+{% block script %}
+    <script src="{% static 'website/js/sign_form_validation.js' %}"></script>
+{% endblock %}
+{% block body %}
+    <div class="sign-page-background">
+        <div class="row justify-content-center container">
+            <div class="col-sm-12 col-md-8 col-lg-6">
+                <div class="card">
+                    <div class="card-body py-5">
+                        <img class="d-block mx-auto mb-4" src="{% static 'website/images/notespoint_logo.png' %}" width="100px" height="100px">
+                        <h2 class="text-center mb-4">Sign In</h2>
+                        <form class="needs-validation" action="{% url 'sign-in' %}" method="post" novalidate>
+                            {% csrf_token %}
+                            {% if form.non_field_errors %} 
+                                <div class="alert alert-danger mx-3" role="alert">{{ form.non_field_errors.as_ul }}</div>
+                            {% endif %}                 
+                            <div class="form-floating mb-3 mx-3">
+                                <input type="text" class="form-control" id="username"  name="username" placeholder="Username" required>
+                                <label for="username">Username</label> 
+                                <div class="invalid-feedback">
+                                    Please enter your username.
+                                </div>                          
+                            </div>
+                            {% if form.username.errors %}
+                                <div class="alert alert-danger mx-3" role="alert">{{ form.username.errors.as_ul }}</div>
+                            {% endif %}
+                            <div class="form-floating mb-3 mx-3">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                                <label for="password">Password</label>
+                                <div class="invalid-feedback">
+                                    Please enter your password.
+                                </div> 
+                            </div>                         
+                            {% if form.password.errors %}
+                                <div class="alert alert-danger mx-3" role="alert">{{ form.password.errors.as_ul }}</div>
+                            {% endif %}
+                            <small class="d-block text-center">Don't have an account? 
+                                <a href="{% url 'sign-up' %}" class="link-underline link-underline-opacity-0">Sign Up!</a>
+                            </small>
+                            <button type="submit" class="btn btn-primary d-block mx-auto mt-4">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

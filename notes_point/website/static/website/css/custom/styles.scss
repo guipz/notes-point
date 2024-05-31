@@ -1,0 +1,224 @@
+// Required
+@import "../bootstrap-5.3.0-alpha3/scss/functions";
+
+
+// Required
+@import "../bootstrap-5.3.0-alpha3/scss/variables";
+@import "../bootstrap-5.3.0-alpha3/scss/variables-dark";
+@import "../bootstrap-5.3.0-alpha3/scss/maps";
+@import "../bootstrap-5.3.0-alpha3/scss/mixins";
+@import "../bootstrap-5.3.0-alpha3/scss/root";
+
+
+// Default variable overrides here.
+
+$main-color: #FFD95A;
+$on-main-text-color: #2b2101;
+$secondary-color: #ffc400;
+$on-secondary-text-color: #2b2101;
+
+// Optional Bootstrap components here
+@import "../bootstrap-5.3.0-alpha3/scss/reboot";
+@import "../bootstrap-5.3.0-alpha3/scss/utilities";
+@import "../bootstrap-5.3.0-alpha3/scss/utilities/api";
+@import "../bootstrap-5.3.0-alpha3/scss/grid";
+@import "../bootstrap-5.3.0-alpha3/scss/helpers";
+@import "../bootstrap-5.3.0-alpha3/scss/type";
+@import "../bootstrap-5.3.0-alpha3/scss/containers";
+@import "../bootstrap-5.3.0-alpha3/scss/navbar";
+@import "../bootstrap-5.3.0-alpha3/scss/nav";
+@import "../bootstrap-5.3.0-alpha3/scss/buttons";
+@import "../bootstrap-5.3.0-alpha3/scss/dropdown";
+@import "../bootstrap-5.3.0-alpha3/scss/images";
+@import "../bootstrap-5.3.0-alpha3/scss/modal";
+@import "../bootstrap-5.3.0-alpha3/scss/close";
+@import "../bootstrap-5.3.0-alpha3/scss/transitions";
+@import "../bootstrap-5.3.0-alpha3/scss/forms";
+@import "../bootstrap-5.3.0-alpha3/scss/card";
+@import "../bootstrap-5.3.0-alpha3/scss/alert";
+@import "../bootstrap-5.3.0-alpha3/scss/spinners";
+@import "../bootstrap-5.3.0-alpha3/scss/toasts";
+
+
+// Bootstrap reboot automatically set ul margin-bottom to 1rem, but we dont want it.
+// So we override the margin here.
+ul {
+    margin-bottom: 0;
+}
+
+// Styles
+html,
+body {
+    height: 100%;
+}
+
+
+// The magic number used here is the size of the navbar.
+// We define size removing the height of the navbar from the viewport total height.
+.full-height-minus-navbar {
+    height: calc(100% - 67.5px);
+}
+
+
+.homepage-header {
+    padding: 4rem;
+    @include border-bottom-radius(2rem);
+    background-color: $white;
+}
+
+
+.homepage-background {
+    background: url(/static/website/images/homepage_background_map.png) no-repeat top;
+    background-size: auto;
+    height: 100%;
+}
+
+
+.note-modal {
+    @extend .modal;
+    --#{$prefix}modal-color: #{$on-main-text-color};
+    --#{$prefix}modal-bg: #{$main-color};
+    --#{$prefix}modal-border-color: #{$secondary-color};
+    --#{$prefix}modal-header-border-color: #{$main-color};
+    --#{$prefix}modal-footer-border-color: #{$main-color};
+
+    // This is necessary to remove the blue shadow from the close button when it is in focus.
+    & .btn-close {
+        --#{$prefix}btn-close-focus-shadow: transparent;
+    }
+
+}
+
+.text-muted-on-main {
+    color: rgba($on-main-text-color, 0.5)
+};
+
+.note-card {
+    @extend .card;
+    --#{$prefix}card-title-color: #{$on-main-text-color};
+    --#{$prefix}card-border-color: #{$secondary-color};
+    --#{$prefix}card-cap-color: #{$on-main-text-color};
+    --#{$prefix}card-color: #{$on-main-text-color};
+    --#{$prefix}card-bg: #{$main-color};
+
+    .card-footer {
+        color: #{$on-main-text-color};
+        border-top: none;
+        background-color: #{$main-color};
+    }
+    
+    .card-header {
+        color: #{$on-main-text-color};
+        border-bottom: none;
+        background-color: #{$main-color}
+    }
+}
+
+.chat-container {
+    background-color: $gray-200;
+    overflow: auto;
+    min-height: 90vh;
+    max-height: 90vh;
+}
+
+.chat-view-bar {
+    background-color: $gray-300;
+    min-height: 4rem;
+    max-height: 4rem;
+}
+
+.chat-view-message-card {
+    @extend .card;
+    min-width: 20rem; 
+    max-width: 25rem;
+}
+
+.chat-item-card {
+    @extend .card;
+    min-height: 7rem;
+
+    &:hover {
+        cursor: pointer;
+        background-color: $gray-100;
+    }
+
+    &:active {
+        background-color: $gray-400
+    }
+}
+
+.icon-button {
+    background-color: transparent;
+    border: none;
+    min-width: none;
+}
+
+
+.on-main-floating-form {
+    @extend .form-floating;
+    
+    & input {
+        border-color: $secondary-color;
+        padding: 0;
+        color: $on-secondary-text-color;
+        min-width: 10rem;
+
+        &:focus {
+            box-shadow: none;
+            border-color: $secondary-color;
+            color: $on-secondary-text-color;
+        }
+    }
+
+}
+
+
+.main-textarea {
+    @extend .form-control;
+    color: $on-main-text-color;
+    background-color: $main-color;
+    border: 0;
+
+        &:focus {
+            box-shadow: none;
+            color: $on-main-text-color;
+            background-color: $main-color;
+        }
+}
+
+
+.on-main-button {
+    @include button-variant($white, $secondary-color, $on-main-text-color, $hover-color: $on-main-text-color, $active-color: $on-main-text-color);
+}
+
+
+.secondary-button {
+    @include button-variant($secondary-color, $main-color, $on-secondary-text-color, $hover-color: $on-secondary-text-color, $active-color: $on-secondary-text-color);
+};
+
+
+.main-button {
+    @include button-variant($main-color, $secondary-color, $on-main-text-color, $hover-color: $on-main-text-color, $active-color: $on-main-text-color);
+}
+
+
+.map-bottom-button {
+    margin-bottom: 1rem;
+    @include border-radius($border-radius-xxl);
+    @include button-size(1rem, 2rem, $h6-font-size, 0);
+    @include media-breakpoint-up(lg) {
+        & {
+            margin-bottom: 0;
+            @include border-bottom-radius(0);
+        }
+    }
+}
+
+
+.sign-page-background {
+    background-color: $gray-100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
